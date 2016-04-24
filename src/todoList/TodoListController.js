@@ -57,4 +57,6 @@ export default TodoListController;
 * 如何对该 controller 进行依赖注入, use decorators to support ngInject
 *
 * npm package ng-decorators
+*
+* for ESlint, you can use http://editorconfig.org/ override the webstorm config
 */
