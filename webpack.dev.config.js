@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var HTMLPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // configuration
@@ -8,13 +9,20 @@ module.exports = {
 	},
 	output: {
 		path: __dirname + '/build',
-		filename: 'index.js',
+		filename: '[name].js',
 		publicPath: '/'
 	},
 	resolve: {
 		extensions: ['', '.js']
 	},
 	plugins: [
+
+		new HTMLPlugin({
+			template: './src/index.html',
+			filename: 'index.html',
+			inject: false
+		}),
+
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
@@ -49,7 +57,4 @@ module.exports = {
 			}
 		]
 	}
-    // devServer: {
-    //     contentBase: "./build"
-    // }
 };

@@ -1,6 +1,3 @@
-import Todo from './Todo';
-
-
 function inject(...list) {
 	return function(target) {
 		target.$inject = list;
@@ -10,36 +7,39 @@ function inject(...list) {
 // http://technologyadvice.github.io/es7-decorators-babel6/
 // make babel 6 support decorators
 
-@inject('$log')
+@inject('$log', 'ToDoResource')
 class TodoListController {
-	constructor($log) {
+	constructor($log, ToDoResource) {
 		this.todos = [];
 		this.$log = $log;
+		this.ToDoResource = ToDoResource;
 		this.init();
 	}
 
 	addTodo() {
 		if (this.todoText) {
-			this.todos.push(new Todo(this.todoText));
+			this.todos.push({text: this.todoText, done: false});
+			this.ToDoResource.save({text: this.todoText, done: false});
 			this.$log.info('add new Todo: ' + this.todoText);
 		}
 	}
 
 	remaining() {
-		return this.todos.filter(todo => { return todo.done; }).length;
+		return this.todos.filter(todo => todo.done).length;
+	}
+
+	mark(index, todo) {
+		this.ToDoResource.update({id: index}, todo);
 	}
 
 	archive() {
-		this.todos = this.todos.filter(todo => { return !todo.done; });
+		this.todos = this.todos.filter(todo => !todo.done);
 	}
 
 	init() {
-		// add three todos
-		this.todos.push(new Todo('Learn ES6'));
-		this.todos.push(new Todo('Learn AngularJS'));
-		this.todos.push(new Todo('Learn ES6 + AngularJS'));
-		this.todos.push(new Todo('Learn Webpack'));
-		this.todos.push(new Todo('Learn Something'));
+		this.ToDoResource.list(list => {
+			this.todos = list;
+		});
 		this.$log.info('init');
 	}
 }

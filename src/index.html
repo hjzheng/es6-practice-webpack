@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpack + angularjs 1.x + ES6</title>
-    <script src="/index.js"></script>
 </head>
 <body class="container">
 <h2> To do list (ES6 + AngularJS 1.x + Webpack)  <small class="glyphicon glyphicon-text-background"></small></h2>
@@ -14,7 +13,7 @@
         <ul>
             <li ng-repeat="todo in todoList.todos">
                 <label class="checkbox">
-                    <input type="checkbox" ng-model="todo.done">
+                    <input type="checkbox" ng-model="todo.done" ng-click="todoList.mark($index, todo)">
                     <span class="done-{{todo.done}}">{{todo.text}}</span>
                 </label>
             </li>
@@ -26,5 +25,9 @@
         </form>
     </div>
 </div>
+<% var i = 0;
+for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+<script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" seq="<%=i++%>"></script>
+<% } %>
 </body>
 </html>
