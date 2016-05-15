@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Webpack + angularjs 1.x + ES6</title>
+    <% var i = 0;
+    for (var chunk in htmlWebpackPlugin.files.css) { %>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[chunk] %>"></link>
+    <% } %>
 </head>
 <body class="container">
 <h2> To do list (ES6 + AngularJS 1.x + Webpack)  <small class="glyphicon glyphicon-text-background"></small></h2>
@@ -26,8 +30,8 @@
     </div>
 </div>
 <% var i = 0;
-for (var chunk in htmlWebpackPlugin.files.chunks) { %>
-<script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" seq="<%=i++%>"></script>
+for (var chunk in htmlWebpackPlugin.files.js) { %>
+<script src="<%= htmlWebpackPlugin.files.js[chunk] %>"></script>
 <% } %>
 </body>
 </html>

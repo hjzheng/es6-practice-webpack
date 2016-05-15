@@ -1,4 +1,8 @@
-require('style!css!../node_modules/bootstrap/dist/css/bootstrap.min.css');
+// import '../node_modules/bootstrap/dist/css/bootstrap.css';
+// use require instead of import
+require('style!css!../node_modules/bootstrap/dist/css/bootstrap.min.css?insertAt=top');
+// require('style/url!file!../node_modules/bootstrap/dist/css/bootstrap.min.css?insertAt=top');
+// we can use package.json script way to cp bootstrap.js into build env
 
 import angular from '../node_modules/angular';
 import ngResource from '../node_modules/angular-resource';

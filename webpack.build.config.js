@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var HTMLPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     // configuration
@@ -25,6 +26,9 @@ module.exports = {
 		}),
 
 		new webpack.optimize.CommonsChunkPlugin('libs', 'libs.[hash].js'),
+		new ExtractTextPlugin('style.[hash].css', {
+			allChunks: true
+		}),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
@@ -43,7 +47,7 @@ module.exports = {
 				test: /\.js$/,
 				loader: 'eslint-loader',
 				exclude: /node_modules/,
-				include: [__dirname, 'src']
+				include: __dirname + '/src'
 			}
 		],
 		loaders: [
@@ -51,7 +55,14 @@ module.exports = {
 				test: /\.js?$/,
 				loaders: ['babel'],
 				exclude: /(node_modules|bower_components)/,
-				include: [__dirname + '/src']
+				include: __dirname + '/src'
+			},
+			{
+				test: /\.css$/,
+				// 注意 loader 而不是 loaders
+				loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
+				exclude: /node_modules/,
+				include: __dirname + '/src'
 			},
 			{
 				test: /\.woff|\.woff2|\.svg|.eot|\.ttf/,

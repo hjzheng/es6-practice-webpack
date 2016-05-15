@@ -1,15 +1,17 @@
 var webpack = require('webpack');
 var HTMLPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     // configuration
 	devtool: 'source-map',
 	entry: {
-		app: ['webpack-hot-middleware/client?reload=true', './src/index.js']
+		app: ['webpack-hot-middleware/client?reload=true', './src/index.js'],
+		libs: ['angular', 'angular-resource']
 	},
 	output: {
 		path: __dirname + '/build',
-		filename: '[name].js',
+		filename: '[name].[hash].js',
 		publicPath: '/'
 	},
 	resolve: {
@@ -22,7 +24,10 @@ module.exports = {
 			filename: 'index.html',
 			inject: false
 		}),
-
+		new webpack.optimize.CommonsChunkPlugin('libs', 'libs.[hash].js'),
+		new ExtractTextPlugin('style.[hash].css', {
+			allChunks: true
+		}),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
@@ -41,15 +46,23 @@ module.exports = {
 				test: /\.js$/,
 				loader: 'eslint-loader',
 				exclude: /node_modules/,
-				include: [__dirname, 'src']
+				include: __dirname + 'src'
 			}
 		],
 		loaders: [
 			{
 				test: /\.js?$/,
 				loaders: ['babel'],
-				exclude: /(node_modules|bower_components)/,
-				include: [__dirname + '/src']
+				exclude: /node_modules/,
+				include: __dirname + '/src'
+			},
+			{
+				test: /\.css$/,
+				// 注意 loader 而不是 loaders
+				loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
+				// loaders: ['style', 'css'],
+				exclude: /node_modules/,
+				includes: [__dirname + '/src', __dirname + '/node_modules/bootstrap/dist/css/bootstrap.min.css']
 			},
 			{
 				test: /\.woff|\.woff2|\.svg|.eot|\.ttf/,

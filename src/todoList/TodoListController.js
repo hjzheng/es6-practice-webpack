@@ -6,6 +6,7 @@ function inject(...list) {
 
 // http://technologyadvice.github.io/es7-decorators-babel6/
 // make babel 6 support decorators
+import './todo.css';
 
 @inject('$log', 'ToDoResource')
 class TodoListController {
@@ -25,7 +26,7 @@ class TodoListController {
 	}
 
 	remaining() {
-		return this.todos.filter(todo => todo.done).length;
+		return this.todos.filter(todo => todo.done === false).length;
 	}
 
 	mark(index, todo) {
