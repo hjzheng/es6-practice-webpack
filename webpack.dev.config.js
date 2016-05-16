@@ -1,12 +1,11 @@
 var webpack = require('webpack');
 var HTMLPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     // configuration
 	devtool: 'source-map',
 	entry: {
-		app: ['webpack-hot-middleware/client?reload=true', './src/index.js'],
+		app: ['webpack-hot-middleware/client?reload=true', './src/app.js'],
 		libs: ['angular', 'angular-resource']
 	},
 	output: {
@@ -25,7 +24,6 @@ module.exports = {
 			inject: false
 		}),
 		new webpack.optimize.CommonsChunkPlugin('libs', 'libs.[hash].js'),
-		new ExtractTextPlugin('style.[hash].css'),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
@@ -56,8 +54,7 @@ module.exports = {
 			},
 			{
 				test: /\.css$/,
-				// 注意 loader 而不是 loaders
-				loader: ExtractTextPlugin.extract('style', 'css'),
+				loaders: ['style', 'css'],
 				includes: [__dirname + '/src', __dirname + '/node_modules/bootstrap/dist/css/bootstrap.min.css']
 			},
 			{

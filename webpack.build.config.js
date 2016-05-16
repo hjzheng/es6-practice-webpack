@@ -7,7 +7,7 @@ module.exports = {
     // configuration
 	devtool: 'source-map',
 	entry: {
-		app: ['./src/index.js'],
+		app: ['./src/app.js'],
 		libs: ['angular', 'angular-resource']
 	},
 	output: {
