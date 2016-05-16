@@ -25,9 +25,7 @@ module.exports = {
 			inject: false
 		}),
 		new webpack.optimize.CommonsChunkPlugin('libs', 'libs.[hash].js'),
-		new ExtractTextPlugin('style.[hash].css', {
-			allChunks: true
-		}),
+		new ExtractTextPlugin('style.[hash].css'),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
@@ -59,9 +57,7 @@ module.exports = {
 			{
 				test: /\.css$/,
 				// 注意 loader 而不是 loaders
-				loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
-				// loaders: ['style', 'css'],
-				exclude: /node_modules/,
+				loader: ExtractTextPlugin.extract('style', 'css'),
 				includes: [__dirname + '/src', __dirname + '/node_modules/bootstrap/dist/css/bootstrap.min.css']
 			},
 			{
