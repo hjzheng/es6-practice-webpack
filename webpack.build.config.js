@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var HTMLPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CleanPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     // configuration
@@ -24,11 +25,9 @@ module.exports = {
 			filename: 'index.html',
 			inject: false
 		}),
-
 		new webpack.optimize.CommonsChunkPlugin('libs', 'libs.[hash].js'),
-		new ExtractTextPlugin('style.[hash].css', {
-			allChunks: true
-		}),
+		new ExtractTextPlugin('[name].[hash].css'),
+		new CleanPlugin('dist'),
 		new webpack.optimize.OccurenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
@@ -60,9 +59,9 @@ module.exports = {
 			{
 				test: /\.css$/,
 				// 注意 loader 而不是 loaders
-				loader: ExtractTextPlugin.extract('style-loader', 'css-loader'),
-				exclude: /node_modules/,
-				include: __dirname + '/src'
+				loader: ExtractTextPlugin.extract('style', 'css'),
+				// 注意 因为 bootstrap.css 在 node_modules 中, 为了处理 bootstrap 所以删除 exclude
+				includes: [__dirname + '/src', __dirname + '/node_modules/bootstrap/dist/css/bootstrap.css']
 			},
 			{
 				test: /\.woff|\.woff2|\.svg|.eot|\.ttf/,
