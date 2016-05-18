@@ -12,7 +12,7 @@ describe('TodoListController', () => {
 	}));
 
 	it('init', () => {
-		// 注意GET等都要大写
+		// 注意GET等都要大写 https://segmentfault.com/a/1190000003716613
 		httpBackend.when('GET', '/todos').respond(
 			[
 				{text: 'Learn AngularJS', done: false},

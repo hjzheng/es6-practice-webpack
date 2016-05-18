@@ -10,3 +10,6 @@ Use webpack build es6
 #### TODO
 1. 在其它css之前添加 bootstrap.css (done)
 2. build css的时候 bootstrap.css 依然没有独立出来
+
+#### webpack相关资料
+- [awesome-webpack](https://github.com/hjzheng/awesome-webpack)
