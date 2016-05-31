@@ -25,6 +25,14 @@ class TodoListController {
 		}
 	}
 
+	removeTodo(id) {
+		this.ToDoResource.delete({id: id}, data => {
+			if (data.success) {
+				this.todos.splice(id, 1);
+			}
+		});
+	}
+
 	remaining() {
 		return this.todos.filter(todo => todo.done === false).length;
 	}
@@ -34,6 +42,10 @@ class TodoListController {
 	}
 
 	archive() {
+		let dones = this.todos.filter(todo => todo.done);
+		dones.forEach((todo, index) => {
+			this.removeTodo(index);
+		});
 		this.todos = this.todos.filter(todo => !todo.done);
 	}
 
